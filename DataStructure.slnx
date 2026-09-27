@@ -3,5 +3,5 @@
     <Platform Name="Win32" />
     <Platform Name="x64" />
   </Configurations>
-  <Project Path="DataStructure.vcxproj" />
+  <Project Path="SingleList/SingleList.vcxproj" />
 </Solution>

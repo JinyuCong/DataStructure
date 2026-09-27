@@ -1,26 +1,36 @@
 ﻿#pragma once
 
-class SingleList
+struct Node
 {
 public:
     int data;
-    SingleList *next;
-
-    /// 单链表构造函数
-    /// @param data 这个节点的数值
-    SingleList(int data);
+    Node *next;
     
-    static SingleList* create(int len);
+    Node(int data);
+};
+
+
+class SingleList
+{
+private:
+    Node *head;
+    
+public:
+    /// 单链表构造函数
+    /// @param head 链表头节点 
+    SingleList(Node *head);
+    
+    static SingleList create(int len);
 
     /// 返回链表长度
     /// @return 链表长度
-    int get_length();
+    int get_length() const;
     
     /// 判断单链表是否为空
-    bool is_empty();
+    bool is_empty() const;
     
     /// 打印单链表
-    void print();
+    void print() const;
 
     /// 在第index个结点后面插入数值为data的结点
     /// @param index 节点角标
@@ -30,7 +40,7 @@ public:
     /// 寻找第k个结点,只适用链表不为空的情况 
     /// @param k 角标k
     /// @return 第k个节点
-    SingleList* find_kth(int k);
+    Node* find_kth(int k) const;
 
     /// 找到第一个数值为N的节点
     /// @param n 节点的数值
@@ -46,7 +56,17 @@ public:
     void delete_n(int n);
 
     /// 反转链表
-    SingleList* reverse();
+    SingleList reverse() const;
+
+    /// 对两个升序链表进行升序合并
+    /// @param list1 第一个链表
+    /// @param list2 第二个链表
+    /// @return 合并后的链表
+    static SingleList merge(SingleList list1, SingleList list2);
+
+    /// 冒泡排序
+    /// @return 排序过的链表
+    SingleList sort();
 };
 
 
