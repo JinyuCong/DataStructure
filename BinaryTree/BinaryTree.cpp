@@ -235,6 +235,37 @@ void BinaryTree::find_ancestors2(BinaryTree* root, BinaryTree* x)
     所以按第 4 条的非递归后序模板写，访问（准备输出）结点时判断它是不是 x。如果是，就把栈里 x 以下的所有元素依次弹出并输出，结束。
     注意：用第 4 条那种写法时，访问 x 的那一刻 x 还在栈顶。要先把 x 弹掉再输出剩下的；或者改用"左走到底 + pre"的后序写法。
     ⚠️ 原代码只用了一个 bool flag 来记录"是否访问过右子树"，但这个状态应该是每个结点各有一份。只用一个变量在很多树上会出错，别照搬。*/
+    stack<BinaryTree*> stack;
+    BinaryTree *curr = root;
+    stack.push(curr);
+    BinaryTree *pre = nullptr;
+    
+    while (!stack.empty())
+    {
+        curr  = stack.top();
+        
+        if (curr == x)
+        {
+            while (!stack.empty())
+            {
+                cout << stack.top() << " ";
+                stack.pop();
+            }
+        }
+        
+        if ((!curr->left && !curr->right) || 
+            (pre != NULL && (pre == curr->left || pre == curr->right)))
+        {
+            cout << curr->data << " ";
+            stack.pop();
+            pre = curr;
+        }
+        else
+        {
+            stack.push(curr->right);
+            stack.push(curr->left);
+        }
+    }
 }
 
 
@@ -245,7 +276,7 @@ int main(int argc, char* argv[])
     auto tree = BinaryTree::create_binary_tree(a);
     
     BinaryTree *x = tree->right;
-    BinaryTree::find_ancestors(tree, x);
+    BinaryTree::find_ancestors2(tree, x);
     
     return 0;
 }
