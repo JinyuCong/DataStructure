@@ -65,4 +65,14 @@ public:
     /// @param root 根节点
     /// @param x 树的某个节点
     static void find_ancestors2(BinaryTree* root, BinaryTree *x);
+
+    /// 求二叉树的宽度
+    /// @param root 根节点
+    /// @return (int) 二叉树宽度
+    static int get_width(BinaryTree *root);
+
+    /// 求叶子节点带权路径长度之和
+    /// @param root 根节点
+    /// @return (int) 叶子节点带权路径长度之和
+    static int WPL(BinaryTree *root);
 };

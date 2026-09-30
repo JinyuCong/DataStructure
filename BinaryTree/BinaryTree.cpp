@@ -1,8 +1,10 @@
-#include "BinaryTree.h"
+﻿#include "BinaryTree.h"
 #include <iostream>
 #include <stack>
 #include <vector>
 #include <queue>
+#include <regex>
+#include <tuple>
 
 using namespace std;
 
@@ -246,17 +248,18 @@ void BinaryTree::find_ancestors2(BinaryTree* root, BinaryTree* x)
         
         if (curr == x)
         {
+            stack.pop();
             while (!stack.empty())
             {
-                cout << stack.top() << " ";
+                cout << stack.top()->data << " ";
                 stack.pop();
             }
+            return;
         }
         
         if ((!curr->left && !curr->right) || 
             (pre != NULL && (pre == curr->left || pre == curr->right)))
         {
-            cout << curr->data << " ";
             stack.pop();
             pre = curr;
         }
@@ -268,15 +271,76 @@ void BinaryTree::find_ancestors2(BinaryTree* root, BinaryTree* x)
     }
 }
 
+int BinaryTree::get_width(BinaryTree* root)
+{
+    int max_size = 0;
+    
+    if (!root)
+    {
+        return 0;
+    }
+    
+    queue<BinaryTree*> queue;
+    queue.push(root);
+    while (!queue.empty())
+    {
+        int size = (int)queue.size();
+        max_size = max(max_size, size);
+        
+        BinaryTree *curr = queue.front();
+        queue.pop();
+        if (curr->left != nullptr)
+        {
+            queue.push(curr->left);
+        }
+        if (curr->right != nullptr)
+        {
+            queue.push(curr->right);
+        }
+    }
+    return max_size;
+}
 
+int BinaryTree::WPL(BinaryTree* root)
+{
+    queue<tuple<BinaryTree*, int>> queue;
+    auto root_level = make_tuple(root, 0);
+    queue.push(root_level);
+    
+    int sum = 0;
+    
+    while (!queue.empty())
+    {
+        BinaryTree *curr = get<0>(queue.front());
+        int curr_level = get<1>(queue.front());
+        queue.pop();
+        if (!curr->left && !curr->right)
+        {
+            int weight = curr->data - '0';
+            sum += weight * curr_level;
+        }
+        
+        if (curr->left)
+        {
+            auto left_level = make_tuple(curr->left, curr_level + 1);
+            queue.push(left_level);
+        }
+        if (curr->right)
+        {
+            auto right_level = make_tuple(curr->right, curr_level + 1);
+            queue.push(right_level);
+        }
+    }
+    
+    return sum;
+}
 
 int main(int argc, char* argv[])
 {
-    vector<char> a = {'a', 'b', 'd', '#', '#', 'e', '#', '#', 'c', '#', '#'};
+    vector<char> a = {'1', '2', '3', '#', '#', '4', '#', '#', '5', '6', '#', '#', '7', '#', '#'};
     auto tree = BinaryTree::create_binary_tree(a);
     
-    BinaryTree *x = tree->right;
-    BinaryTree::find_ancestors2(tree, x);
-    
+    int tree_size = BinaryTree::WPL(tree);
+    cout << tree_size;
     return 0;
 }
