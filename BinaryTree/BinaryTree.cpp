@@ -177,6 +177,34 @@ int BinaryTree::get_binary_tree_height(BinaryTree *root)
     return height;
 }
 
+int BinaryTree::get_binary_tree_height2(BinaryTree* root)
+{
+    if (!root)
+    {
+        return 0;
+    }
+    queue<tuple<BinaryTree*, int>> queue;
+    queue.push(make_tuple(root, 1));
+    int depth = 0;
+    while (!queue.empty())
+    {
+        auto queue_head = queue.front();
+        queue.pop();
+        auto queue_head_node = get<0>(queue_head);
+        auto queue_head_level = get<1>(queue_head);
+        depth = max(queue_head_level, depth);
+        if (queue_head_node->left != nullptr)
+        {
+            queue.push(make_tuple(queue_head_node->left, queue_head_level + 1));
+        }
+        if (queue_head_node->left != nullptr)
+        {
+            queue.push(make_tuple(queue_head_node->left, queue_head_level + 1));
+        }
+    }
+    return depth;
+}
+
 bool BinaryTree::judge(BinaryTree* root)
 {
     queue<BinaryTree*> queue;
@@ -335,12 +363,61 @@ int BinaryTree::WPL(BinaryTree* root)
     return sum;
 }
 
+BinaryTree* BinaryTree::pre_in_build(char* preorder, char* inorder, int size)
+{
+    if (!preorder || !inorder || size < 0)
+    {
+        cout << "输入出错" << endl;
+        return nullptr;
+    }
+    
+}
+
+bool BinaryTree::print_path(BinaryTree* node, const char target, stack<BinaryTree*> path)
+{
+    if (!node)
+    {
+        return false;
+    }
+    
+    path.push(node);
+    if (path.top()->data == target)
+    {
+        while (!path.empty())
+        {
+            if (path.size() == 1)
+            {
+                cout << path.top()->data;
+                path.pop();
+                return true;
+            }
+            cout << path.top()->data << " <- ";
+            path.pop();
+        }
+    }
+    
+    bool found = false;
+    if (!found && node->left != nullptr)
+    {
+        found = print_path(node->left, target, path);
+    }
+    if (!found && node->right != nullptr)
+    {
+        found = print_path(node->right, target, path);
+    }
+    return found;
+}
+
 int main(int argc, char* argv[])
 {
     vector<char> a = {'1', '2', '3', '#', '#', '4', '#', '#', '5', '6', '#', '#', '7', '#', '#'};
     auto tree = BinaryTree::create_binary_tree(a);
     
-    int tree_size = BinaryTree::WPL(tree);
-    cout << tree_size;
+    cout << "前序遍历（递归）：" << endl;
+    BinaryTree::preorder_traversal(tree);
+    cout << endl;
+    cout << "前序遍历（非递归）：" << endl;
+    BinaryTree::preorder_traversal2(tree);
+    cout << endl; 
     return 0;
 }

@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include <iostream>
 #include <vector>
+#include <stack>
 
 using namespace std;
 
@@ -45,10 +46,15 @@ public:
     /// @param root 根节点
     static void level_order_traversal(BinaryTree *root);
     
-    /// 返回二叉树高度
+    /// 递归求二叉树高度
     /// @param root 根节点
     /// @return (int) 高度
     static int get_binary_tree_height(BinaryTree *root);
+
+    /// 非递归求二叉树高度
+    /// @param root 根节点
+    /// @return (int) 高度
+    static int get_binary_tree_height2(BinaryTree *root);
 
     /// 判断是不是完全二叉树
     /// @param root 根节点
@@ -75,4 +81,18 @@ public:
     /// @param root 根节点
     /// @return (int) 叶子节点带权路径长度之和
     static int WPL(BinaryTree *root);
+
+    /// 
+    /// @param pre 
+    /// @param in 
+    /// @param size 
+    /// @return 
+    static BinaryTree* pre_in_build(char *pre, char *in, int size);
+    
+    /// 打印二叉树到目标节点的路径
+    /// @param node dfs节点
+    /// @param target 目标节点值
+    /// @param path 需要维护的路径
+    /// @return 是否找到了这个节点target
+    static bool print_path(BinaryTree *node, char target, stack<BinaryTree*> path);
 };
