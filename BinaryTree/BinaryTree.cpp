@@ -5,6 +5,7 @@
 #include <queue>
 #include <regex>
 #include <tuple>
+#include <valarray>
 
 using namespace std;
 
@@ -57,8 +58,9 @@ void BinaryTree::preorder_traversal2(BinaryTree* root)
 {
     stack<BinaryTree*> stack;
     BinaryTree *curr = root;
+    stack.push(root);
 
-    while (curr || !stack.empty())
+    while (!stack.empty())
     {
         while (curr)
         {
@@ -363,13 +365,29 @@ int BinaryTree::WPL(BinaryTree* root)
     return sum;
 }
 
-BinaryTree* BinaryTree::pre_in_build(char* preorder, char* inorder, int size)
+BinaryTree* BinaryTree::pre_in_build(vector<char> &preorder, vector<char> &inorder)
 {
-    if (!preorder || !inorder || size < 0)
+    /// 先序序列的第一个元素永远是当前树的根节点，利用该根节点去中序序列中定位，
+    /// 就能把中序序列划分为左子树和右子树
+    if (preorder.empty() && inorder.empty())
     {
-        cout << "输入出错" << endl;
         return nullptr;
     }
+    
+    BinaryTree *root = new BinaryTree(preorder[0], nullptr, nullptr);
+    int root_index;
+    for (int i = 0; i < static_cast<int>(inorder.size()); ++i)
+    {
+        if (inorder[i] == root->data)
+        {
+            root_index = i;
+        }
+    }
+    
+    vector<char> left_tree_data(inorder.begin(), inorder.begin() + root_index);
+    vector<char> right_tree_data(inorder.begin() + root_index + 1, inorder.end());
+    
+    return root;
     
 }
 
@@ -410,7 +428,11 @@ bool BinaryTree::print_path(BinaryTree* node, const char target, stack<BinaryTre
 
 int main(int argc, char* argv[])
 {
-    vector<char> a = {'1', '2', '3', '#', '#', '4', '#', '#', '5', '6', '#', '#', '7', '#', '#'};
+    // vector<char> preorder = {'a', 'b', 'd', 'e', 'c'};
+    // vector<char> inorder = {'d', 'b', 'e', 'a', 'c'};
+    //
+    // BinaryTree::pre_in_build(preorder, inorder);
+    vector<char> a = {'a', 'b', 'd', '#', '#', 'e', '#', '#', 'c', '#', '#'};
     auto tree = BinaryTree::create_binary_tree(a);
     
     cout << "前序遍历（递归）：" << endl;

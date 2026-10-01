@@ -83,11 +83,10 @@ public:
     static int WPL(BinaryTree *root);
 
     /// 
-    /// @param pre 
-    /// @param in 
-    /// @param size 
+    /// @param preorder
+    /// @param inorder
     /// @return 
-    static BinaryTree* pre_in_build(char *pre, char *in, int size);
+    static BinaryTree* pre_in_build(vector<char> &preorder, vector<char> &inorder);
     
     /// 打印二叉树到目标节点的路径
     /// @param node dfs节点
