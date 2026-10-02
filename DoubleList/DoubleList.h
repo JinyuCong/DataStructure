@@ -1,7 +1,5 @@
 ﻿#pragma once
-
-#include <iostream>
-
+#include <vcruntime.h>
 
 class Node
 {
@@ -10,15 +8,15 @@ public:
     Node *prev;
     Node *next;
     
-    Node(int data, Node *prev = nullptr, Node *next = nullptr);
+    Node(int data = NULL, Node *prev = nullptr, Node *next = nullptr);
 };
 
 
 class DoubleList
 {
-private:
-    Node *head;
 public:
+    Node *head;
+    
     /// 双链表构造函数
     /// @param head 头节点
     DoubleList(Node *head);
@@ -26,5 +24,12 @@ public:
     /// 创建长度为n的双链表
     /// @param n 双链表长度
     /// @return 双链表
-    DoubleList* create(int n);
+    static DoubleList create(int n);
+    
+    /// 打印双链表
+    void print() const;
+
+    /// 返回双链表长度
+    /// @return 双链表长度
+    int get_length();
 };
