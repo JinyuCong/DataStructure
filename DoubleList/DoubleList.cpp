@@ -1,4 +1,6 @@
 #include "DoubleList.h"
+
+#include <functional>
 #include <iostream>
 using namespace std;
 
@@ -246,7 +248,26 @@ int main(int argc, char* argv[])
     list.print();
     cout << "Please enter the index of the node to be inserted after this one:" << endl;
     cin >> index;
-    list.insert_after_index(index, )
+    cout << "Please enter the number of the node (int):" << endl;
+    cin >> num;
+    Node *insert_node = new Node(num);
+    list.insert_after_index(index, insert_node);
+    cout << "The list after insertion is:" << endl;
+    list.print();
+    
+    cout << "Double list before deletion:" << endl;
+    list.print();
+    cout << "Please enter the index of the node which you want to delete:" << endl;
+    cin >> index;
+    list.delete_index(index);
+    cout << "The list after deletion is:" << endl;
+    list.print();
+    
+    cout << "The list before reverse is:" << endl;
+    list.print();
+    auto reversed = list.reverse();
+    cout << "Reversed list is:" << endl;
+    reversed.print();
     
     return 0;
 }
