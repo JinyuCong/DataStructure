@@ -5,5 +5,7 @@
   </Configurations>
   <Project Path="BinaryTree/BinaryTree.vcxproj" />
   <Project Path="DoubleList/DoubleList.vcxproj" />
+  <Project Path="Heap/Heap.vcxproj" />
   <Project Path="SingleList/SingleList.vcxproj" />
+  <Project Path="UnionFind/UnionFind.vcxproj" />
 </Solution>
